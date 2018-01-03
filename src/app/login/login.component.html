@@ -1,0 +1,27 @@
+<div class="row">
+  <div class="col-md-4 col-md-offset-4">
+    <div class="well">
+
+      <div class="alert alert-success" *ngIf="status == 'success'">
+        <p class="text-center">Bienvinido, adilante</p>
+      </div>
+      <div class="alert alert-danger" *ngIf="status == 'error'">
+        <p class="text-center">Uste no es de los nuestros</p>
+      </div>
+
+      <form (submit)="login()" #loginForm="ngForm">
+        <div class="form-group">
+          <label for="u">Usuario</label>
+          <input type="text" class="form-control" [(ngModel)]="usuario" name="nombre" id="u" required>
+        </div>
+        <div class="form-group">
+          <label for="p">Cuntraseña</label>
+          <input type="password" class="form-control" [(ngModel)]="password" name="pass" id="p" required>
+        </div>
+        <div class="form-group text-center">
+          <button type="submit" class="btn btn-success" [disabled]="!loginForm.form.valid">Intrar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
