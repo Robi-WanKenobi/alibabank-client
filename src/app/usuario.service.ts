@@ -5,6 +5,7 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class UsuarioService {
 
+
   constructor(private http: Http) { }
 
   Login(user) {
@@ -31,6 +32,29 @@ export class UsuarioService {
     });
   }
 
+  getServerKeys() {
+    return new Promise((resolve, reject) => {
+      this.http.get('http://localhost:3000/alibabank/')
+        .map(res => res.json())
+        .subscribe(res => {
+          resolve(res)
+        }, (err) => {
+          reject(err);
+        });
+    });
+  }
+
+  signCoin(coin) {
+    return new Promise((resolve, reject) => {
+      this.http.post('http://localhost:3000/alibabank/sign', coin)
+        .map(res => res.json())
+        .subscribe(res => {
+          resolve(res);
+        }, (err) => {
+          reject(err);
+        });
+    });
+  }
 
   getUsuario(id) {
     return new Promise((resolve, reject) => {
@@ -44,4 +68,15 @@ export class UsuarioService {
     });
   }
 
+  updateCredit(id, data) {
+    return new Promise((resolve, reject) => {
+      this.http.put('http://localhost:3000/usuario/credito/' + id, data)
+        .map(res => res.json())
+        .subscribe(res => {
+          resolve(res)
+        }, (err) => {
+          reject(err);
+        });
+    });
+  }
 }

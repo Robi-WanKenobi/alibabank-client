@@ -1,39 +1,86 @@
 <div class="col-md-4">
   <div class="well">
-    <label>Nombre</label>
-    <p>{{usuario.nombre}}</p>
-    <label>Email</label>
-    <p>{{usuario.email}}</p>
-    <label>Usuario</label>
-    <p>{{usuario.usuario}}</p>
-    <label>Crédito</label>
-    <p>{{usuario.credito}}</p>
+    <table class="table" style="font-size: 16px">
+      <tr class="text-left">
+        <td>
+          <label>Nombre</label>
+        </td>
+        <td>
+          <p>{{usuario.nombre}}</p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label>Email</label>
+        </td>
+        <td>
+          <p>{{usuario.email}}</p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label>Usuario</label>
+        </td>
+        <td>
+          <p>{{usuario.usuario}}</p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label>Crédito</label>
+        </td>
+        <td>
+          <p>{{credit}} €</p>
+        </td>
+      </tr>
+    </table>
+
+    <div class="alert alert-danger" *ngIf="suficiente === 'no'">
+      <p class="text-center">No dispone de sufisiente credito</p>
+    </div>
+
+    <div *ngIf="moneda_lista === 'yes'">
+      <div class="alert alert-success">
+        <p class="text-center">Descargue su Anonycoin para finalisar la transacsión</p>
+      </div>
+      <div #qrcode>
+        <qr-code [value]="coin_signed" [size]="300"></qr-code>
+      </div>
+      <div class="text-center" style="margin-top: 15px;">
+        <button class="btn btn-success" (click)="getMoneda()">Descargar</button>
+      </div>
+    </div>
+
   </div>
 </div>
 
 <div class="col-md-8">
   <div class="well">
-   <table style="width: 100%;">
+    <h2 class="text-center">Solisita aqui tus <strong>Anonycoins</strong></h2>
+    <div class="alert alert-danger" *ngIf="suficiente === 'no'">
+      <p class="text-center">No dispone de sufisiente credito</p>
+    </div>
+   <table style="width: 100%; font-size: 20px">
      <tr>
        <td valign="center" class="tex-center">
-           <button type="button" class="btn btn-primary">10 Anycoins</button>
+           <button (click)="createRandomMoneda(10)" type="button" class="btn btn-primary" [disabled]="moneda_lista === 'yes'">10</button>
        </td>
        <td valign="center" class="tex-center">
-         <button type="button" class="btn btn-primary">20 Anycoins</button>
+         <button (click)="createRandomMoneda(20)"  type="button" class="btn btn-primary" [disabled]="moneda_lista === 'yes'">20</button>
        </td>
        <td valign="center" class="tex-center">
-         <button type="button" class="btn btn-primary">50 Anycoins</button>
+         <button (click)="createRandomMoneda(50)" type="button" class="btn btn-primary" [disabled]="moneda_lista === 'yes'">50</button>
        </td>
      </tr>
      <tr>
        <td valign="center" class="tex-center">
-         <button type="button" class="btn btn-primary">100 Anycoins</button>
+         <button (click)="createRandomMoneda(100)" type="button" class="btn btn-primary" [disabled]="moneda_lista === 'yes'">100</button>
        </td>
        <td valign="center" class="tex-center">
-         <button type="button" class="btn btn-primary">200 Anycoins</button>
+         <button (click)="createRandomMoneda(200)" type="button" class="btn btn-primary" [disabled]="moneda_lista === 'yes'">200</button>
        </td>
        <td valign="center" class="tex-center">
-         <button type="button" class="btn btn-primary">500 Anycoins</button>
+         <button (click)="createRandomMoneda(500) "type="button" class="btn btn-primary" [disabled]="moneda_lista === 'yes'">500</button>
        </td>
      </tr>
    </table>

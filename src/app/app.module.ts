@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule }   from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { InisioComponent } from './inisio/inisio.component';
@@ -9,6 +9,8 @@ import { LoginComponent } from './login/login.component';
 import {HashLocationStrategy, LocationStrategy} from "@angular/common";
 import {UsuarioService} from "./usuario.service";
 import {HttpModule} from "@angular/http";
+import {QRCodeModule} from "angular2-qrcode";
+
 import { ChangeCoinsComponent } from './change-coins/change-coins.component';
 import { SonaClienteComponent } from './sona-cliente/sona-cliente.component';
 import { PirfilClienteComponent } from './pirfil-cliente/pirfil-cliente.component';
@@ -27,11 +29,12 @@ const ROUTES = [
     LoginComponent,
     ChangeCoinsComponent,
     SonaClienteComponent,
-    PirfilClienteComponent
+    PirfilClienteComponent,
   ],
   imports: [
     BrowserModule,
     FormsModule,
+    QRCodeModule,
     HttpModule,
     RouterModule.forRoot(ROUTES)
   ],
