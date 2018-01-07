@@ -109,7 +109,6 @@ export class SonaClienteComponent implements OnInit {
       const doc = new jsPDF();
 
       doc.setFontSize(8);
-      doc.output()
       doc.text('Anonycoin con identificador:', 10, 10);
       doc.text(this.coin_signed, 10, 16);
       doc.addHTML(this.el.nativeElement, 60, 25, null, () => {
