@@ -52,12 +52,23 @@ export class SonaClienteComponent implements OnInit {
   }
 
   createBlinderKeys(e, n) {
+
+    /*//Factor de cegado
+    var b = bigInt.randBetween((bigInt(2).pow(length/2)), bigInt($scope.modN));
+    while ((!bigInt(b).isPrime())&&(bigInt.lcm(b, $scope.modN) != 1)){
+      b = bigInt.randBetween((bigInt(2).pow(length/2)), bigInt($scope.modN));
+    }
+    return b;*/
+
     this.b = bigInt.randBetween(bigInt(2).pow(this.length / 2), bigInt(n)).toString();
     console.log(this.b);
     while (!(bigInt(this.b).isPrime()) && (bigInt.lcm(bigInt(this.b), n) !== bigInt(1))) {
       this.b = bigInt.randBetween(bigInt(2).pow(this.length / 2), bigInt(n)).toString();
     }
     console.log(this.b);
+
+    console.log('e: ' + e);
+    console.log('n: ' + n);
 
     this.blinder = bigInt(this.b).modPow(e, n);
     console.log('Factor de cegado: ' + this.blinder.toString());
@@ -73,12 +84,16 @@ export class SonaClienteComponent implements OnInit {
     }else {
       this.random_moneda = bigInt.randBetween(bigInt(2).pow((this.length / 4) - 1), bigInt(2).pow(this.length / 4).minus(1));
       console.log('Moneda: ' + this.random_moneda.toString());
+      console.log('Antes de cegar: ' + this.random_moneda + ' ;blinder: ' + this.blinder + ' ;n: ' + this.n);
       this.blindMoneda(this.random_moneda, this.blinder, this.n, valor);
     }
   }
 
   blindMoneda(moneda, blinder, n, valor) {
+    /*((bnumber.multiply(blinder_factor)).mod($scope.modN)).toString();*/
+    // (bigInt(signed_final_blind).multiply(b_inv)).mod($scope.modN);
     this.moneda_blinded = (bigInt(moneda).multiply(blinder)).mod(n);
+    console.log('Moneda descegada despues de cegar: ' + (this.moneda_blinded.multiply(this.inv_blinder)).mod(this.n).toString());
     this.buildData(this.moneda_blinded, this.user_id, this.server_id, valor);
   }
 
@@ -91,9 +106,9 @@ export class SonaClienteComponent implements OnInit {
     console.log(_data);
     this.usuarioService.signCoin(_data).then((res) => {
       // (bigInt(signed_final_blind).multiply(b_inv)).mod($scope.modN);
-      console.log(res[2].signed);
+      console.log('Moneda firmada: ' + res[2].signed);
       this.coin_signed = (bigInt(res[2].signed).multiply(this.inv_blinder)).mod(this.n).toString(16);
-      console.log('Moneda firmada: ' + this.coin_signed);
+      console.log('Moneda descegada: ' + this.coin_signed);
       this._valor = valor;
 
       this.moneda_lista = 'yes';
@@ -109,10 +124,10 @@ export class SonaClienteComponent implements OnInit {
       const doc = new jsPDF();
 
       doc.setFontSize(8);
-      doc.text('Anonycoin con identificador:', 10, 10);
+      doc.text('Anonycoin por valor de ' + this._valor + ' € con identificador:', 10, 10);
       doc.text(this.coin_signed, 10, 16);
       doc.addHTML(this.el.nativeElement, 60, 25, null, () => {
-        doc.save(this.coin_signed + '.pdf');
+        doc.save(this._valor + '_' + this.coin_signed + '.pdf');
       });
 
       setTimeout(() => {this.moneda_lista = ''; }, 1000);

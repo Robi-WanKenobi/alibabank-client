@@ -43,14 +43,13 @@
       <div class="alert alert-success">
         <p class="text-center">Descargue su Anonycoin para finalisar la transacsión</p>
       </div>
-      <div #qrcode>
+      <div #qrcode class="text-center">
         <qr-code [value]="coin_signed" [size]="300"></qr-code>
       </div>
       <div class="text-center" style="margin-top: 15px;">
         <button class="btn btn-success" (click)="getMoneda()">Descargar</button>
       </div>
     </div>
-
   </div>
 </div>
 
